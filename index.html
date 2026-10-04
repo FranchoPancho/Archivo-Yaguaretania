@@ -26,6 +26,7 @@
             <a href="#territorio">Señales</a>
             <a href="#atlas">Atlas</a>
             <a href="#laboratorio">Laboratorio</a>
+            <a href="#juego">Juego</a>
             <a class="nav-cta" href="#misiones">Iniciar recorrido <span aria-hidden="true">↗</span></a>
         </nav>
     </header>
@@ -157,10 +158,51 @@
             <div class="territory-foot mono"><span>ARCHIVO DE BIODIVERSIDAD / 01—03</span><span>OBSERVA · CONTRASTA · DESCUBRE</span></div>
         </section>
 
+        <section class="field-game" id="juego" aria-labelledby="game-title">
+            <div class="field-game-inner section-wrap">
+                <div class="game-copy">
+                    <div class="entry-label"><span class="section-number">05</span><span class="eyebrow">PAUSA DE EXPLORACIÓN</span></div>
+                    <p class="eyebrow game-kicker">JUEGO RÁPIDO · 30 SEGUNDOS</p>
+                    <h2 id="game-title">Sigue la <em>pista.</em></h2>
+                    <p>Las huellas aparecen y cambian de lugar. Encuentra 10 antes de que se acabe el tiempo.</p>
+                    <button class="button game-start" id="game-start" type="button">Iniciar juego <span aria-hidden="true">→</span></button>
+                    <p class="game-status" id="game-status" aria-live="polite">El claro está tranquilo. ¿Listo para rastrear?</p>
+                </div>
+                <div class="game-console">
+                    <div class="game-stats mono" aria-label="Marcador del juego">
+                        <span>HUELLAS <b id="game-score">00</b> / 10</span>
+                        <span>TIEMPO <b id="game-time">30</b>s</span>
+                    </div>
+                    <div class="game-time-track" id="game-time-track" role="progressbar" aria-label="Tiempo restante" aria-valuemin="0" aria-valuemax="30" aria-valuenow="30">
+                        <span id="game-time-fill"></span>
+                    </div>
+                    <div class="game-board" id="game-board" role="group" aria-label="Claro de la selva: encuentra la huella">
+                        <button class="game-cell" type="button" data-cell-index="0" aria-label="Sector 1, sin huella" disabled></button>
+                        <button class="game-cell" type="button" data-cell-index="1" aria-label="Sector 2, sin huella" disabled></button>
+                        <button class="game-cell" type="button" data-cell-index="2" aria-label="Sector 3, sin huella" disabled></button>
+                        <button class="game-cell" type="button" data-cell-index="3" aria-label="Sector 4, sin huella" disabled></button>
+                        <button class="game-cell" type="button" data-cell-index="4" aria-label="Sector 5, sin huella" disabled></button>
+                        <button class="game-cell" type="button" data-cell-index="5" aria-label="Sector 6, sin huella" disabled></button>
+                        <button class="game-cell" type="button" data-cell-index="6" aria-label="Sector 7, sin huella" disabled></button>
+                        <button class="game-cell" type="button" data-cell-index="7" aria-label="Sector 8, sin huella" disabled></button>
+                        <button class="game-cell" type="button" data-cell-index="8" aria-label="Sector 9, sin huella" disabled></button>
+                        <button class="game-cell" type="button" data-cell-index="9" aria-label="Sector 10, sin huella" disabled></button>
+                        <button class="game-cell" type="button" data-cell-index="10" aria-label="Sector 11, sin huella" disabled></button>
+                        <button class="game-cell" type="button" data-cell-index="11" aria-label="Sector 12, sin huella" disabled></button>
+                        <button class="game-cell" type="button" data-cell-index="12" aria-label="Sector 13, sin huella" disabled></button>
+                        <button class="game-cell" type="button" data-cell-index="13" aria-label="Sector 14, sin huella" disabled></button>
+                        <button class="game-cell" type="button" data-cell-index="14" aria-label="Sector 15, sin huella" disabled></button>
+                        <button class="game-cell" type="button" data-cell-index="15" aria-label="Sector 16, sin huella" disabled></button>
+                    </div>
+                    <p class="game-hint mono">TOCA O USA TAB + ENTER PARA SEGUIR EL RASTRO</p>
+                </div>
+            </div>
+        </section>
+
         <section class="timeline" id="misiones" aria-labelledby="timeline-title">
             <div class="timeline-inner section-wrap">
                 <div class="timeline-heading">
-                    <div class="entry-label"><span class="section-number">05</span><span class="eyebrow">PROTOCOLO DE EXPLORACIÓN</span></div>
+                    <div class="entry-label"><span class="section-number">06</span><span class="eyebrow">PROTOCOLO DE EXPLORACIÓN</span></div>
                     <h2 id="timeline-title">Desbloquea<br><em>la historia.</em></h2>
                     <p>Cuatro misiones para leer con todos los sentidos. Marca cada paso y guarda tu avance en este dispositivo.</p>
                     <div class="mission-progress">

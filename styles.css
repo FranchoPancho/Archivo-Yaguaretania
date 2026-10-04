@@ -170,6 +170,29 @@ h2 { font: 600 clamp(39px, 5vw, 63px)/1.08 var(--serif); letter-spacing: 0; }
 .quiz-next:disabled { opacity: .4; cursor: not-allowed; }
 .quiz-next:not(:disabled):hover { color: var(--forest); background: var(--neon); }
 .quiz-next span { margin-left: 10px; }
+.field-game { padding-block: 96px; color: var(--white); background: radial-gradient(ellipse at 74% 48%, rgba(27,93,73,.33), transparent 43%), #102522; }
+.field-game-inner { display: grid; grid-template-columns: .8fr 1fr; gap: 9%; align-items: center; }
+.game-copy .entry-label { margin-bottom: 38px; }
+.game-kicker { margin-bottom: 16px; color: var(--neon); }
+.game-copy h2 { margin-bottom: 17px; color: var(--white); }
+.game-copy h2 em { color: #d68b68; }
+.game-copy > p:not(.eyebrow):not(.game-status) { max-width: 390px; margin-bottom: 24px; color: rgba(255,255,255,.7); font-size: 13px; line-height: 1.8; }
+.game-start { border: 1px solid var(--neon); color: var(--forest); background: var(--neon); cursor: pointer; }
+.game-start:hover { background: #d8ffa1; }
+.game-start span { margin-left: 12px; }
+.game-status { min-height: 38px; margin: 16px 0 0; color: rgba(255,255,255,.68); font-size: 11px; line-height: 1.7; }
+.game-console { min-width: 0; padding: 22px; border: 1px solid rgba(194,242,124,.3); background: rgba(4,17,16,.45); }
+.game-stats { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; color: rgba(255,255,255,.58); font-size: 9px; }
+.game-stats b { margin-left: 5px; color: var(--neon); font-weight: 500; }
+.game-time-track { height: 3px; margin-bottom: 16px; overflow: hidden; background: rgba(255,255,255,.14); }
+.game-time-track span { display: block; width: 100%; height: 100%; background: var(--neon); transition: width .25s linear; }
+.game-board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.game-cell { min-width: 0; aspect-ratio: 1; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.14); color: var(--neon); background: linear-gradient(145deg, rgba(131,219,207,.08), rgba(4,17,16,.55)); cursor: crosshair; transition: border-color .15s, background .15s, transform .15s; }
+.game-cell:disabled { cursor: default; }
+.game-cell:not(:disabled):hover { border-color: rgba(194,242,124,.55); background-color: rgba(194,242,124,.08); }
+.game-cell.has-trail { border-color: var(--neon); background: rgba(194,242,124,.13); box-shadow: inset 0 0 22px rgba(194,242,124,.08), 0 0 14px rgba(194,242,124,.14); }
+.game-cell.has-trail::after { content: '🐾'; font-size: clamp(20px, 3vw, 32px); animation: trail-arrive .25s ease-out both; }
+.game-hint { margin: 14px 0 0; color: rgba(255,255,255,.45); font-size: 7px; line-height: 1.6; }
 .timeline { padding-block: 102px; color: var(--white); background: var(--forest); }
 .timeline-inner { display: grid; grid-template-columns: .72fr 1fr; gap: 11%; }
 .timeline .entry-label { margin-bottom: 43px; }
@@ -227,6 +250,7 @@ h2 { font: 600 clamp(39px, 5vw, 63px)/1.08 var(--serif); letter-spacing: 0; }
 @keyframes content-arrive { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes image-arrive { from { opacity: .6; transform: scale(1.06); } to { opacity: 1; transform: scale(1.015); } }
 @keyframes hud-pulse { 50% { opacity: .68; transform: scale(.97); } }
+@keyframes trail-arrive { from { opacity: .35; transform: scale(.7) rotate(-12deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
 
 @media (min-width: 761px) and (max-width: 1100px) {
     .site-header { padding-inline: 4%; gap: 16px; }
@@ -281,6 +305,11 @@ h2 { font: 600 clamp(39px, 5vw, 63px)/1.08 var(--serif); letter-spacing: 0; }
     .quiz-options { grid-template-columns: 1fr; }
     .quiz-option { min-height: 40px; }
     .quiz-next { justify-self: start; }
+    .field-game { padding-block: 76px; }
+    .field-game-inner { grid-template-columns: 1fr; gap: 18px; }
+    .game-copy .entry-label { margin-bottom: 32px; }
+    .game-console { padding: 17px; }
+    .game-board { gap: 6px; }
     .timeline { padding-block: 77px; }
     .timeline-inner { grid-template-columns: 1fr; gap: 38px; }
     .timeline .entry-label { margin-bottom: 34px; }

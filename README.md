@@ -6,7 +6,11 @@ Una bitácora de lectura interactiva para explorar *Yaguaretania*, de Andrea Fer
 
 - `index.html`: estructura y contenido de la experiencia.
 - `styles.css`: estilos adaptables a dispositivos móviles y de escritorio.
-- `script.js`: interacciones de navegación, señales, atlas y recorrido.
+- `script.js`: interacciones de navegación, señales, atlas, minijuego y recorrido.
+
+## Minijuego
+
+En el apartado **Juego**, encuentra las huellas que van apareciendo en el claro antes de que termine el contador de 30 segundos. Reúne 10 para completar el rastreo. Se puede jugar tocando las casillas o con teclado.
 
 ## Cómo abrir la página
 
@@ -26,4 +30,4 @@ La página carga las fuentes desde Google Fonts y las imágenes desde Unsplash. 
 
 Para publicar el sitio, en el repositorio abre **Settings → Pages** y configura la fuente como la rama `main` y la carpeta `/(root)`. Una vez completado el despliegue, estará disponible en:
 
-<https://franchopancho.github.io/Archivos-Yaguaretania/>
+<https://franchopancho.github.io/Archivo-Yaguaretania/>
