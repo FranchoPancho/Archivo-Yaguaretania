@@ -42,7 +42,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid #f2a377; outline-offs
 .nav-cta span { margin-left: 12px; font-size: 14px; }
 .menu-toggle { display: none; }
 .hero { min-height: 680px; height: min(790px, 100svh); position: relative; display: flex; align-items: center; overflow: hidden; background: #142923; color: white; }
-.hero-image { position: absolute; inset: 0; background-image: url('https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=2400&q=85'); background-position: center 43%; background-size: cover; transform: scale(1.015); animation: image-arrive 1.3s ease-out both; }
+.hero-image { position: absolute; inset: 0; background-image: url('https://upload.wikimedia.org/wikipedia/commons/f/f8/Jaguar_%28Panthera_onca_palustris%29_male_Rio_Negro_2.JPG'); background-position: center 43%; background-size: cover; transform: scale(1.015); animation: image-arrive 1.3s ease-out both; }
 .hero-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,18,18,.92) 0%, rgba(6,25,23,.63) 42%, rgba(6,24,21,.03) 100%), linear-gradient(0deg, rgba(5,18,18,.54), transparent 48%); }
 .hero::after { content: ''; position: absolute; inset: 79px 0 0; pointer-events: none; opacity: .13; background-image: linear-gradient(rgba(183,239,197,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(183,239,197,.4) 1px, transparent 1px); background-size: 80px 80px; mask-image: linear-gradient(90deg, black, transparent 72%); }
 .hero-content { position: relative; z-index: 1; width: min(610px, 80%); margin: 48px 0 0 11.4%; animation: content-arrive .8s .1s both; }
@@ -67,7 +67,7 @@ h1, h2, h3, p { margin-top: 0; }
 .hud-top { top: 4%; }
 .hud-bottom { bottom: 2%; text-align: center; }
 .hud-side { position: absolute; top: 50%; right: -23px; color: var(--neon); font-size: 7px; writing-mode: vertical-rl; }
-.hud-target { position: absolute; top: 50%; left: 50%; width: 13px; height: 13px; transform: translate(-50%, -50%); border: 1px solid var(--neon); border-radius: 50%; box-shadow: 0 0 20px var(--neon), 0 0 55px rgba(194,242,124,.55); }
+.hud-target { position: absolute; top: 50%; left: 50%; width: 13px; height: 13px; transform: translate(-50%, -50%); border: 1px solid var(--neon); border-radius: 50%; box-shadow: 0 0 20px var(--neon), 0 0 55px rgba(194,242,124,.55); color: transparent; font-size: 0; }
 .hud-target::before, .hud-target::after { content: ''; position: absolute; background: var(--neon); }
 .hud-target::before { width: 28px; height: 1px; top: 5px; left: -9px; }
 .hud-target::after { width: 1px; height: 28px; left: 5px; top: -9px; }
@@ -124,14 +124,64 @@ h2 { font: 600 clamp(39px, 5vw, 63px)/1.08 var(--serif); letter-spacing: 0; }
 .species-data span { color: var(--muted); font-size: 8px; }
 .species-data b { font-size: 12px; font-weight: 600; }
 .atlas-visual { min-height: 465px; position: relative; margin: 0; overflow: hidden; background: #102522; }
-.atlas-photo { position: absolute; inset: 0; background-image: linear-gradient(0deg, rgba(7,23,21,.82), transparent 43%), url('https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=1200&q=85'); background-position: center; background-size: cover; filter: saturate(.85); }
+.atlas-photo { position: absolute; inset: 0; background-image: linear-gradient(0deg, rgba(7,23,21,.82), transparent 43%), url('https://upload.wikimedia.org/wikipedia/commons/f/f8/Jaguar_%28Panthera_onca_palustris%29_male_Rio_Negro_2.JPG'); background-position: 38% center; background-size: cover; filter: saturate(.85); }
 .scan-grid { position: absolute; inset: 0; opacity: .28; background-image: linear-gradient(rgba(194,242,124,.3) 1px, transparent 1px), linear-gradient(90deg, rgba(194,242,124,.3) 1px, transparent 1px); background-size: 34px 34px; mask-image: linear-gradient(135deg, transparent, black); }
 .atlas-reticle { position: absolute; top: 40%; left: 55%; width: 145px; aspect-ratio: 1; border: 1px solid rgba(194,242,124,.8); border-radius: 50%; box-shadow: 0 0 0 24px rgba(194,242,124,.08), 0 0 0 48px rgba(194,242,124,.05); }
 .atlas-reticle::before, .atlas-reticle::after { content: ''; position: absolute; background: rgba(194,242,124,.8); }
 .atlas-reticle::before { width: 185px; height: 1px; top: 71px; left: -21px; }
 .atlas-reticle::after { width: 1px; height: 185px; left: 71px; top: -21px; }
-.atlas-caption { position: absolute; right: 15px; bottom: 14px; left: 15px; z-index: 1; display: flex; justify-content: space-between; gap: 10px; color: rgba(255,255,255,.82); font-size: 8px; }
+.atlas-caption { position: absolute; right: 15px; bottom: 14px; left: 15px; z-index: 1; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 7px 10px; color: rgba(255,255,255,.82); font-size: 8px; }
+.atlas-caption a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 .atlas-corner { position: absolute; top: 15px; right: 15px; color: var(--neon); font-size: 10px; line-height: 1.35; }
+.tracking { padding: 100px 0 0; color: var(--white); background: #102522; }
+.tracking-inner { display: grid; grid-template-columns: .78fr 1.22fr; align-items: start; gap: 9%; padding-bottom: 82px; }
+.tracking-heading .entry-label { margin-bottom: 39px; }
+.tracking-heading .entry-label .eyebrow { color: rgba(255,255,255,.62); }
+.tracking-kicker { margin-bottom: 18px; color: var(--neon); }
+.tracking-heading h2 { margin-bottom: 20px; }
+.tracking-heading h2 em { color: #d68b68; }
+.tracking-heading .body-large { color: rgba(255,255,255,.72); }
+.tracking-caveat { max-width: 420px; padding-left: 13px; border-left: 2px solid var(--neon); color: rgba(255,255,255,.68); font-size: 11px; line-height: 1.75; }
+.tracking-report { min-width: 0; padding: 23px; color: var(--ink); background: var(--paper); }
+.field-map { margin: 23px 0 19px; padding: 13px 14px 11px; border: 1px solid rgba(85,67,45,.34); background-color: #e8dbc0; background-image: radial-gradient(rgba(112,83,51,.12) .6px, transparent .6px); background-size: 7px 7px; }
+.field-map-heading { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 7px 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(85,67,45,.25); color: #62533c; font-size: 8px; }
+.field-map-drawing { display: block; width: 100%; height: auto; margin-top: 8px; overflow: hidden; }
+.field-map:focus-within { outline: 2px solid var(--rust); outline-offset: 3px; }
+.map-river { fill: none; stroke: #708678; stroke-width: 3; stroke-linecap: round; opacity: .72; }
+.map-river-secondary { stroke-width: 2; opacity: .56; }
+.map-region { fill: rgba(139,120,79,.15); stroke: #6d5c41; stroke-width: 2; stroke-dasharray: 5 4; }
+.map-forest { fill: rgba(71,99,65,.56); stroke: #455a3d; stroke-width: 1.5; }
+.map-connectivity { fill: none; stroke: #e4d0a5; stroke-width: 3; stroke-dasharray: 3 7; stroke-linecap: round; opacity: .9; }
+.map-site { fill: #8b4934; stroke: #f2e4c7; stroke-width: 2; }
+.map-site-halo { fill: none; stroke: #8b4934; stroke-width: 1.5; stroke-dasharray: 2 3; transform-box: fill-box; transform-origin: center; animation: map-record-pulse 3s ease-out infinite; }
+.map-connectivity { animation: map-flow 14s linear infinite; }
+.map-leader { fill: none; stroke: #776445; stroke-width: 1; }
+.map-label { fill: #473b2c; font: 600 13px var(--mono); letter-spacing: .4px; }
+.map-small-label { fill: #695a42; font: 11px var(--sans); }
+.map-region-label { fill: #f1e7d2; font: 600 13px var(--mono); letter-spacing: 1px; }
+.map-water-label { fill: #68786d; font: italic 10px var(--serif); letter-spacing: 1px; }
+.map-compass { fill: #755b3b; text-anchor: middle; }
+.map-compass path { stroke: #755b3b; stroke-width: 1; }
+.map-compass text { font: 11px var(--mono); }
+.map-disclaimer { fill: #695a42; font: 9px var(--mono); letter-spacing: .25px; }
+.field-map-legend { display: flex; flex-wrap: wrap; gap: 9px 18px; padding-top: 10px; border-top: 1px solid rgba(85,67,45,.25); color: #62533c; font-size: 9px; }
+.field-map-legend span { display: inline-flex; align-items: center; gap: 7px; }
+.field-map-legend i { width: 8px; height: 8px; display: inline-block; border-radius: 50%; background: #8b4934; }
+.field-map-legend .legend-collar { background: #4c6547; }
+.field-map-legend .legend-corridor { width: 15px; height: 2px; border-radius: 0; background: repeating-linear-gradient(90deg, #4c6547 0 3px, transparent 3px 6px); }
+.tracking-report-top { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 8px; }
+.tracking-report h3 { max-width: 490px; margin: 22px 0 12px; font: 500 clamp(25px, 3vw, 35px)/1.15 var(--serif); }
+.tracking-report > p { max-width: 590px; color: #4e5a54; font-size: 12px; line-height: 1.8; }
+.tracking-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 25px 0 19px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.tracking-steps > div { display: flex; flex-direction: column; gap: 9px; padding: 16px 12px 16px 0; }
+.tracking-steps > div + div { padding-left: 12px; border-left: 1px solid var(--line); }
+.tracking-step-number { color: var(--rust); font-size: 8px; }
+.tracking-steps b { font-size: 12px; }
+.tracking-steps small { color: var(--muted); font-size: 10px; line-height: 1.65; }
+.tracking-report .tracking-note { margin-bottom: 18px; color: var(--muted); font-size: 10px; }
+.tracking-sources { display: flex; flex-wrap: wrap; gap: 10px 22px; padding-top: 15px; border-top: 1px solid var(--line); font-size: 10px; font-weight: 600; }
+.tracking-sources a { text-decoration: underline; text-decoration-color: var(--rust); text-underline-offset: 4px; }
+.tracking-sources a:hover { color: var(--rust); }
 .field-lab { padding-top: 98px; background: #e5e9de; }
 .lab-inner { display: grid; grid-template-columns: .8fr 1.2fr; align-items: start; gap: 42px 9%; padding-bottom: 82px; }
 .lab-heading .entry-label { margin-bottom: 42px; }
@@ -179,22 +229,29 @@ h2 { font: 600 clamp(39px, 5vw, 63px)/1.08 var(--serif); letter-spacing: 0; }
 .game-copy h2 em { color: #d68b68; }
 .game-copy > p:not(.eyebrow):not(.game-status) { max-width: 390px; margin-bottom: 24px; color: rgba(255,255,255,.7); font-size: 13px; line-height: 1.8; }
 .game-start { border: 1px solid var(--neon); color: var(--forest); background: var(--neon); cursor: pointer; }
+.game-start:disabled { cursor: progress; opacity: .72; }
 .game-start:hover { background: #d8ffa1; }
 .game-start span { margin-left: 12px; }
 .game-status { min-height: 38px; margin: 16px 0 0; color: rgba(255,255,255,.68); font-size: 11px; line-height: 1.7; }
 .game-console { min-width: 0; padding: 22px; border: 1px solid rgba(194,242,124,.3); background: rgba(4,17,16,.45); }
 .game-stats { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; color: rgba(255,255,255,.58); font-size: 9px; }
 .game-stats b { margin-left: 5px; color: var(--neon); font-weight: 500; }
+.game-rules { margin: 0 0 13px; color: rgba(255,255,255,.68); font-size: 10px; line-height: 1.6; }
+.game-rules span { color: #f0a088; font-size: 14px; vertical-align: -1px; }
+.game-rules .game-paw-key { color: var(--neon); font-size: 12px; }
 .game-time-track { height: 3px; margin-bottom: 16px; overflow: hidden; background: rgba(255,255,255,.14); }
 .game-time-track span { display: block; width: 100%; height: 100%; background: var(--neon); transition: width .25s linear; }
 .game-time-track.is-urgent span { background: #e4876d; }
 .game-board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
 .game-board[hidden], .game-result[hidden] { display: none; }
-.game-cell { min-width: 0; aspect-ratio: 1; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.14); color: var(--neon); background: linear-gradient(145deg, rgba(131,219,207,.08), rgba(4,17,16,.55)); cursor: crosshair; transition: border-color .15s, background .15s, transform .15s; }
+.game-cell { min-width: 0; aspect-ratio: 1; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.14); color: var(--neon); background: linear-gradient(145deg, rgba(131,219,207,.08), rgba(4,17,16,.55)); cursor: pointer; transition: border-color .15s, background .15s, transform .15s; }
 .game-cell:disabled { cursor: default; }
 .game-cell:not(:disabled):hover { border-color: rgba(194,242,124,.55); background-color: rgba(194,242,124,.08); }
 .game-cell.has-trail { border-color: var(--neon); background: rgba(194,242,124,.13); box-shadow: inset 0 0 22px rgba(194,242,124,.08), 0 0 14px rgba(194,242,124,.14); }
-.game-cell.has-trail::after { content: '🐾'; font-size: clamp(20px, 3vw, 32px); animation: trail-arrive .25s ease-out both; }
+.game-cell.has-trail::after { content: ''; width: 56%; height: 56%; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%23c2f27c'%3E%3Cellipse cx='50' cy='67' rx='24' ry='20'/%3E%3Cellipse cx='22' cy='41' rx='10' ry='14' transform='rotate(-25 22 41)'/%3E%3Cellipse cx='41' cy='27' rx='10' ry='14' transform='rotate(-10 41 27)'/%3E%3Cellipse cx='62' cy='27' rx='10' ry='14' transform='rotate(10 62 27)'/%3E%3Cellipse cx='80' cy='42' rx='10' ry='14' transform='rotate(25 80 42)'/%3E%3C/svg%3E") center / contain no-repeat; filter: drop-shadow(0 0 7px rgba(194,242,124,.62)); animation: trail-arrive .25s ease-out both; }
+.game-cell.has-trap { border-color: rgba(228,135,109,.72); background: radial-gradient(circle, rgba(228,135,109,.15), rgba(4,17,16,.55)); }
+.game-cell.has-trap::after { content: '✣'; color: #f0a088; font: 500 clamp(22px, 3vw, 36px)/1 var(--serif); text-shadow: 0 0 12px rgba(228,135,109,.55); }
+.game-cell.is-trap-hit { animation: miss-shake .3s ease-in-out; border-color: #f0a088; background: rgba(228,135,109,.25); }
 .game-cell.is-miss { border-color: #e4876d; background: rgba(228,135,109,.18); }
 .game-result { min-height: 290px; padding: 24px; border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.035); }
 .game-result.is-win { border-color: rgba(194,242,124,.55); background: radial-gradient(ellipse at 90% 0, rgba(194,242,124,.12), transparent 58%), rgba(255,255,255,.035); }
@@ -215,7 +272,7 @@ h2 { font: 600 clamp(39px, 5vw, 63px)/1.08 var(--serif); letter-spacing: 0; }
 .timeline h2 { color: var(--white); }
 .timeline h2 em { color: #d68b68; }
 .timeline-heading > p:last-child { max-width: 270px; color: rgba(255,255,255,.63); font-size: 13px; line-height: 1.7; }
-.mission-progress { max-width: 320px; margin-top: 30px; padding: 17px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.035); }
+.mission-progress { position: relative; max-width: 320px; margin-top: 30px; padding: 17px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.035); }
 .progress-meta { display: flex; justify-content: space-between; color: rgba(255,255,255,.65); font-size: 8px; }
 .progress-meta span:last-child { color: var(--neon); font-size: 10px; }
 .progress-track { height: 4px; margin-top: 16px; background: rgba(255,255,255,.15); }
@@ -250,6 +307,13 @@ h2 { font: 600 clamp(39px, 5vw, 63px)/1.08 var(--serif); letter-spacing: 0; }
 .mission-item.is-complete .mission-state, .progress-stations i.is-complete { color: var(--neon); }
 .progress-stations i.is-complete { border-color: var(--neon); background: var(--neon); box-shadow: 0 0 9px rgba(194,242,124,.55); }
 .mission-item:focus-within { outline: 1px solid var(--neon); outline-offset: 3px; }
+.timeline.is-complete .mission-progress { border-color: rgba(194,242,124,.7); box-shadow: 0 0 32px rgba(194,242,124,.12); animation: archive-complete .8s ease-out both; }
+.timeline.is-complete .mission-progress::after { content: '\2713'; position: absolute; top: -18px; right: -14px; width: 43px; height: 43px; display: grid; place-items: center; border: 2px double var(--forest); border-radius: 50%; color: var(--forest); background: var(--neon); box-shadow: 0 0 20px rgba(194,242,124,.42); font: 700 22px var(--serif); animation: archive-stamp .65s cubic-bezier(.2, 1.4, .4, 1) both; }
+.timeline.is-complete .mission-list { position: relative; }
+.timeline.is-complete .mission-item { animation: mission-card-complete .55s ease-out both; }
+.timeline.is-complete .mission-item:nth-child(2) { animation-delay: .08s; }
+.timeline.is-complete .mission-item:nth-child(3) { animation-delay: .16s; }
+.timeline.is-complete .mission-item:nth-child(4) { animation-delay: .24s; }
 .closing { display: grid; grid-template-columns: 1fr 1.35fr; gap: 12%; align-items: center; min-height: 440px; padding-block: 80px; }
 .closing-symbol { color: var(--rust); font: 500 clamp(130px, 23vw, 280px)/.8 var(--serif); }
 .closing .eyebrow { margin-bottom: 16px; }
@@ -266,6 +330,85 @@ h2 { font: 600 clamp(39px, 5vw, 63px)/1.08 var(--serif); letter-spacing: 0; }
 @keyframes image-arrive { from { opacity: .6; transform: scale(1.06); } to { opacity: 1; transform: scale(1.015); } }
 @keyframes hud-pulse { 50% { opacity: .68; transform: scale(.97); } }
 @keyframes trail-arrive { from { opacity: .35; transform: scale(.7) rotate(-12deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+@keyframes signal-pulse { 50% { opacity: .58; box-shadow: 0 0 3px var(--neon); } }
+@keyframes target-ping { 0%, 100% { box-shadow: 0 0 0 0 rgba(194,242,124,.35), 0 0 20px var(--neon); } 50% { box-shadow: 0 0 0 13px rgba(194,242,124,0), 0 0 28px var(--neon); } }
+@keyframes slow-drift { 50% { transform: translate3d(0, -8px, 0); } }
+@keyframes scan-drift { to { background-position: 34px 34px; } }
+@keyframes photo-breathe { 50% { transform: scale(1.045); } }
+@keyframes ring-turn { to { transform: rotate(360deg); } }
+@keyframes miss-shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+@keyframes urgent-flash { 50% { box-shadow: 0 0 12px rgba(228,135,109,.5); } }
+@keyframes next-glow { 50% { box-shadow: 0 0 18px rgba(194,242,124,.16); } }
+@keyframes result-arrive { from { opacity: 0; transform: translateY(12px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes logo-turn { to { transform: rotate(360deg); } }
+@keyframes archive-complete { 35% { transform: scale(1.025); } 100% { transform: scale(1); } }
+@keyframes archive-stamp { from { opacity: 0; transform: scale(2.2) rotate(-24deg); } to { opacity: 1; transform: scale(1) rotate(10deg); } }
+@keyframes archive-spark { 0% { opacity: 0; transform: scale(.84); } 25% { opacity: 1; } 100% { opacity: 0; transform: scale(1.04); } }
+@keyframes mission-card-complete { 0% { transform: translateY(10px); } 65% { transform: translateY(-3px); } 100% { transform: translateY(0); } }
+@keyframes map-record-pulse { 0%, 100% { opacity: .72; transform: scale(.92); } 55% { opacity: 1; transform: scale(1.12); } }
+@keyframes map-flow { to { stroke-dashoffset: -40; } }
+
+.status-dot, .signal-live i, .mission-led { animation: signal-pulse 2.4s ease-in-out infinite; }
+.hud-target { animation: target-ping 2.8s ease-out infinite; }
+.hero-coordinate span { animation: content-arrive .7s both; }
+.hero-coordinate span:nth-child(2) { animation-delay: .16s; }
+.hero-coordinate span:nth-child(3) { animation-delay: .3s; }
+.wordmark-mark { transition: color .25s, background .25s, transform .35s; }
+.wordmark:hover .wordmark-mark { transform: rotate(-8deg) scale(1.08); color: var(--neon); background: rgba(194,242,124,.1); }
+.main-nav a:not(.nav-cta) { transition: color .2s, background .2s, transform .2s; }
+.main-nav a:not(.nav-cta):hover { transform: translateY(-2px); }
+.nav-cta span, .button span, .text-link span { display: inline-block; transition: transform .25s; }
+.nav-cta:hover span, .button:hover span, .text-link:hover span { transform: translate(3px, -2px); }
+.book-stamp { transition: transform .35s ease; }
+.book-stamp:hover { transform: rotate(0) translateY(-5px); }
+.signal-tab { transition: background .25s, color .25s, padding .25s; }
+.signal-tab:hover { padding-left: 16px; }
+.signal-panel::before { animation: ring-turn 45s linear infinite; }
+.panel-glyph { animation: slow-drift 6s ease-in-out infinite; }
+.atlas-visual { isolation: isolate; }
+.atlas-photo { animation: photo-breathe 24s ease-in-out infinite alternate; }
+.scan-grid { animation: scan-drift 16s linear infinite; }
+.atlas-reticle { animation: hud-pulse 4s ease-in-out infinite; }
+.species-data div { transition: padding-left .25s, background-color .25s; }
+.species-data div:hover { padding-left: 8px; background: rgba(16,37,34,.04); }
+.tracking-report { transition: transform .3s ease, box-shadow .3s ease; }
+.tracking-report:hover { transform: translateY(-4px); box-shadow: 0 18px 38px rgba(0,0,0,.16); }
+.tracking-steps > div { transition: background-color .25s, padding .25s; }
+.tracking-steps > div:hover { padding-left: 9px; background: rgba(16,37,34,.045); }
+.fact-tab { transition: background .25s, color .25s, transform .2s; }
+.fact-tab:hover { transform: translateY(-2px); }
+.fact-panel::after { animation: slow-drift 7s ease-in-out infinite; }
+.quiz-option { transition: border-color .2s, background .2s, color .2s, transform .2s; }
+.quiz-option:hover:not(:disabled) { transform: translateY(-2px); }
+.quiz-option.correct { animation: result-arrive .35s ease-out both; }
+.quiz-option.incorrect { animation: miss-shake .28s ease-in-out; }
+.quiz-next:not(:disabled):hover { transform: translateY(-2px); }
+.game-console { transition: border-color .3s, box-shadow .3s; }
+.game-console:focus-within { border-color: rgba(194,242,124,.6); box-shadow: 0 0 28px rgba(194,242,124,.08); }
+.game-cell:not(:disabled):hover { transform: scale(1.035); }
+.game-cell.is-miss { animation: miss-shake .25s ease-in-out; }
+.game-time-track.is-urgent { animation: urgent-flash .8s ease-in-out infinite; }
+.game-result:not([hidden]) { animation: result-arrive .45s ease-out both; }
+.mission-item { transition: background .25s, border-color .25s, transform .25s, box-shadow .25s; }
+.mission-item.is-next { animation: next-glow 2.6s ease-in-out infinite; }
+.mission-item.is-complete .mission-check { animation: result-arrive .3s ease-out both; }
+.progress-stations i.is-complete { animation: target-ping 1.2s ease-out; }
+.mission-reset:not(:disabled):hover span { display: inline-block; transform: rotate(-35deg); transition: transform .25s; }
+.closing-symbol { transition: transform .4s ease, color .4s ease; }
+.closing-symbol:hover { transform: rotate(-8deg) scale(1.06); color: #d68b68; }
+.text-link { background-image: linear-gradient(currentColor, currentColor); background-position: 0 100%; background-repeat: no-repeat; background-size: 0 1px; transition: background-size .25s; }
+.text-link:hover { background-size: 100% 1px; }
+.site-footer .wordmark:hover .wordmark-mark { animation: logo-turn .55s ease-out; }
+
+@supports (animation-timeline: view()) {
+    .entry-copy, .book-stamp, .section-heading, .signal-explorer, .atlas-copy, .atlas-visual, .tracking-heading, .tracking-report, .lab-heading, .fact-console, .quiz-console, .game-copy, .game-console, .timeline-heading, .mission-list, .closing > div {
+        animation: scroll-reveal both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 45%;
+    }
+}
+
+@keyframes scroll-reveal { from { opacity: .25; clip-path: inset(0 0 8%); } to { opacity: 1; clip-path: inset(0); } }
 
 @media (min-width: 761px) and (max-width: 1100px) {
     .site-header { padding-inline: 4%; gap: 16px; }
@@ -284,17 +427,16 @@ h2 { font: 600 clamp(39px, 5vw, 63px)/1.08 var(--serif); letter-spacing: 0; }
     .main-nav a:not(.nav-cta) { padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.15); }
     .main-nav .nav-cta { margin-top: 14px; align-self: flex-start; }
     .hero { min-height: 690px; height: 92svh; max-height: 850px; }
-    .hero-image { background-position: 59% center; }
+    .hero-image { background-position: 38% center; }
     .hero-shade { background: linear-gradient(90deg, rgba(5,18,18,.83), rgba(6,25,23,.22)), linear-gradient(0deg, rgba(5,18,18,.56), transparent 55%); }
     .hero::after { background-size: 54px 54px; }
-    .hero-hud { top: auto; right: 11%; bottom: 20%; width: 145px; opacity: .72; }
-    .hud-label { font-size: 6px; }
+    .hero-hud { top: auto; right: 8%; bottom: 23%; width: 120px; opacity: .48; }
+    .hero-hud .hud-label, .hero-hud .hud-side { display: none; }
     .hero-content { width: 86%; margin: 53px 0 0 7%; }
     .hero h1 { font-size: clamp(56px, 14vw, 84px); }
     .hero-intro { max-width: 360px; font-size: 14px; }
-    .hero-coordinate { right: 7%; bottom: 65px; font-size: 8px; }
-    .hero-caption { max-width: 60%; left: 7%; font-size: 7px; }
-    .hero-index { right: 7%; }
+    .hero-coordinate, .hero-index { display: none; }
+    .hero-caption { max-width: 78%; left: 7%; bottom: 18px; font-size: 6px; }
     .section-wrap { width: 86%; }
     .entry { min-height: 0; grid-template-columns: 1fr; row-gap: 24px; padding-block: 78px; }
     .entry-copy, .book-stamp { grid-column: auto; }
@@ -310,6 +452,13 @@ h2 { font: 600 clamp(39px, 5vw, 63px)/1.08 var(--serif); letter-spacing: 0; }
     .territory-foot { padding-inline: 7%; font-size: 7px; }
     .atlas { grid-template-columns: 1fr; gap: 35px; padding-block: 78px; }
     .atlas-visual { min-height: 360px; }
+    .tracking { padding-top: 76px; }
+    .tracking-inner { grid-template-columns: 1fr; gap: 22px; padding-bottom: 58px; }
+    .tracking-heading .entry-label { margin-bottom: 34px; }
+    .tracking-report { padding: 19px; }
+    .tracking-steps { grid-template-columns: 1fr; }
+    .tracking-steps > div { padding: 13px 0; }
+    .tracking-steps > div + div { padding-left: 0; border-top: 1px solid var(--line); border-left: 0; }
     .field-lab { padding-top: 76px; }
     .lab-inner { grid-template-columns: 1fr; gap: 22px; padding-bottom: 58px; }
     .lab-heading .entry-label { margin-bottom: 34px; }
@@ -326,12 +475,20 @@ h2 { font: 600 clamp(39px, 5vw, 63px)/1.08 var(--serif); letter-spacing: 0; }
     .game-console { padding: 17px; }
     .game-stats { gap: 6px; font-size: 8px; }
     .game-stats b { margin-left: 2px; }
+    .game-rules { font-size: 9px; }
     .game-board { gap: 6px; }
     .game-result { min-height: 0; padding: 18px; }
     .game-result-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .timeline { padding-block: 77px; }
     .timeline-inner { grid-template-columns: 1fr; gap: 38px; }
     .timeline .entry-label { margin-bottom: 34px; }
+    .field-map { padding-inline: 9px; }
+    .field-map-heading { font-size: 7px; }
+    .map-label { font-size: 16px; }
+    .map-small-label { font-size: 13px; }
+    .map-water-label { font-size: 13px; }
+    .map-disclaimer { font-size: 10px; }
+    .field-map-legend { font-size: 8px; }
     .closing { grid-template-columns: .5fr 1fr; gap: 8%; min-height: 0; padding-block: 75px; }
     .closing-symbol { font-size: 24vw; }
     .closing h2 { font-size: clamp(34px, 9vw, 48px); }
@@ -343,14 +500,14 @@ h2 { font: 600 clamp(39px, 5vw, 63px)/1.08 var(--serif); letter-spacing: 0; }
 @media (max-width: 400px) {
     .hero { min-height: 650px; }
     .hero-coordinate { display: none; }
-    .hero-caption { max-width: 72%; }
+    .hero-caption { max-width: 78%; }
     .territory-foot { gap: 14px; }
     .territory-foot span:last-child { text-align: right; }
     .mission-item { grid-template-columns: 30px minmax(0, 1fr) auto; gap: 9px; padding: 10px; }
     .mission-number { width: 29px; height: 29px; }
     .mission-end { gap: 6px; }
     .mission-state { min-width: 55px; font-size: 6px; }
-    .hero-hud { right: 7%; bottom: 18%; width: 125px; }
+    .hero-hud { right: 7%; bottom: 23%; width: 110px; }
     .atlas-caption { font-size: 7px; }
     .closing { grid-template-columns: 1fr; gap: 24px; }
     .closing-symbol { font-size: 110px; }
@@ -358,4 +515,8 @@ h2 { font: 600 clamp(39px, 5vw, 63px)/1.08 var(--serif); letter-spacing: 0; }
 
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    .timeline.is-complete .mission-progress, .timeline.is-complete .mission-progress::after, .timeline.is-complete .mission-item { animation: none !important; }
+    @supports (animation-timeline: view()) {
+        .entry-copy, .book-stamp, .section-heading, .signal-explorer, .atlas-copy, .atlas-visual, .tracking-heading, .tracking-report, .lab-heading, .fact-console, .quiz-console, .game-copy, .game-console, .timeline-heading, .mission-list, .closing > div { animation: none !important; }
+    }
 }

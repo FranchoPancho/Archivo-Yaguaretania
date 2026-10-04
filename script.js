@@ -1,24 +1,24 @@
 const signals = {
 	territorio: {
-		code: 'COORDENADA 01',
+		code: 'ANOTACIÓN 01',
 		kicker: 'EL LUGAR TAMBIÉN NARRA',
 		title: '¿Quién decide<br>qué es un hogar?',
-		description: 'En una historia de futuro, el territorio nunca es solo el fondo. Sigue las marcas del entorno y pregúntate quién puede habitarlo, transformarlo o llamarlo suyo.'
+		description: 'En una historia, el territorio nunca es solo el fondo. Sigue las marcas del entorno y pregúntate quién puede habitarlo, transformarlo o llamarlo suyo.'
 	},
 	frontera: {
-		code: 'COORDENADA 02',
+		code: 'ANOTACIÓN 02',
 		kicker: 'LÍMITES EN MOVIMIENTO',
 		title: '¿Qué hay al otro<br>lado de la frontera?',
 		description: 'Observa cómo se dibujan los límites y quién tiene permiso para cruzarlos. Cada frontera cuenta algo sobre las reglas de ese mundo.'
 	},
-	futuro: {
-		code: 'COORDENADA 03',
-		kicker: 'EL MAÑANA SE CONSTRUYE',
-		title: '¿El futuro de quién?',
-		description: 'Piensa qué decisiones del presente parecen haber dado forma a ese mañana. ¿Quién gana con ese orden? ¿Quién queda fuera de la imagen?' 
+	memoria: {
+		code: 'ANOTACIÓN 03',
+		kicker: 'LO QUE MERECE SER RECORDADO',
+		title: '¿Qué dejamos<br>escrito en el paisaje?',
+		description: 'Piensa qué decisiones humanas transforman el territorio y quiénes viven sus consecuencias. ¿Qué historias merecen conservarse en estas páginas?'
 	},
 	jaguar: {
-		code: 'COORDENADA 04',
+		code: 'ANOTACIÓN 04',
 		kicker: 'UNA PRESENCIA QUE DEJA HUELLA',
 		title: '¿Qué significa<br>el yaguareté?',
 		description: 'Sigue la presencia del animal en el título y en tu lectura. Pregúntate qué asociaciones despierta y cómo transforma tu manera de imaginar el territorio.'
@@ -56,19 +56,19 @@ signalTabs.forEach((tab, index) => {
 
 const fieldFacts = {
 	range: {
-		code: 'BIOSEÑAL 01 / DISTRIBUCIÓN',
+		code: 'NOTA DE CAMPO 01 / DISTRIBUCIÓN',
 		title: 'Un territorio<br>de continente.',
 		description: 'El jaguar se distribuye desde México hasta Argentina y está presente en 18 países.',
 		stat: 'MÉXICO <span>→</span> ARGENTINA'
 	},
 	movement: {
-		code: 'BIOSEÑAL 02 / MOVIMIENTO',
+		code: 'NOTA DE CAMPO 02 / MOVIMIENTO',
 		title: 'La selva no es<br>su único camino.',
 		description: 'Es un buen nadador y trepador. Necesita grandes territorios conectados y ecosistemas saludables para sobrevivir.',
 		stat: 'NADADOR <span>+</span> TREPADOR'
 	},
 	coat: {
-		code: 'BIOSEÑAL 03 / PELAJE',
+		code: 'NOTA DE CAMPO 03 / PELAJE',
 		title: 'Cada roseta<br>deja su firma.',
 		description: 'Su pelaje dorado se reconoce por rosetas oscuras. El patrón convierte a cada jaguar en una presencia inconfundible.',
 		stat: 'PATRÓN <span>·</span> ROSETAS'
@@ -141,7 +141,7 @@ function renderQuizQuestion() {
 	quizOptions.replaceChildren();
 	quizFeedback.textContent = '';
 	quizNext.disabled = true;
-	quizNext.innerHTML = 'Siguiente señal <span aria-hidden="true">→</span>';
+	quizNext.innerHTML = 'Siguiente pregunta <span aria-hidden="true">→</span>';
 	quizAnswered = false;
 
 	currentQuestion.options.forEach((option, optionIndex) => {
@@ -178,12 +178,12 @@ quizNext.addEventListener('click', () => {
 	}
 
 	if (quizAnswered) {
-		quizProgress.textContent = 'TRANSMISIÓN COMPLETADA';
+		quizProgress.textContent = 'CUESTIONARIO TERMINADO';
 		quizQuestion.textContent = `Resultado: ${quizScore} / ${quizQuestions.length}`;
 		quizOptions.replaceChildren();
 		quizFeedback.textContent = quizScore === quizQuestions.length
-			? '¡Explorador experto! Has leído todas las señales.'
-			: 'Recorrido terminado. Explora los datos y vuelve a intentarlo.';
+			? '¡Buen observador! Has leído todas las notas.'
+			: 'Recorrido terminado. Consulta las fichas y vuelve a intentarlo.';
 		quizNext.disabled = false;
 		quizNext.textContent = 'Repetir desafío';
 		quizAnswered = false;
@@ -220,29 +220,56 @@ const gameResultBest = document.querySelector('#game-result-best');
 const gameDuration = 30;
 const gameGoal = 10;
 const gameTrailDuration = 2400;
+const gameTrapCount = 2;
+const gameTrapPenalty = 2;
 let gameScore = 0;
 let gameMisses = 0;
 let gameBestScore = 0;
 let gameTime = gameDuration;
 let gameTarget = -1;
+let gameTraps = new Set();
 let gameActive = false;
 let gameClock;
 let gameTrailTimeout;
 
+function updateGameTime() {
+	gameTimeDisplay.textContent = String(gameTime);
+	gameTimeTrack.setAttribute('aria-valuenow', String(gameTime));
+	gameTimeFill.style.width = `${gameTime / gameDuration * 100}%`;
+	gameTimeTrack.classList.toggle('is-urgent', gameActive && gameTime <= 10);
+}
+
+function updateGameCells() {
+	gameCells.forEach((cell, index) => {
+		const hasTrail = index === gameTarget;
+		const hasTrap = gameTraps.has(index);
+		cell.classList.toggle('has-trail', hasTrail);
+		cell.classList.toggle('has-trap', hasTrap);
+		cell.setAttribute('aria-label', hasTrail
+			? `Huella en el sector ${index + 1}. Pulsa para marcarla.`
+			: hasTrap
+				? `Trampa de espinas en el sector ${index + 1}. Evita tocarla.`
+				: `Sector ${index + 1}, sin huella`);
+	});
+}
+
 function moveGameTrail() {
+	window.clearTimeout(gameTrailTimeout);
 	const availableCells = gameCells
 		.map((_, index) => index)
 		.filter((index) => index !== gameTarget);
 	gameTarget = availableCells[Math.floor(Math.random() * availableCells.length)];
-	gameCells.forEach((cell, index) => {
-		const hasTrail = index === gameTarget;
-		cell.classList.toggle('has-trail', hasTrail);
-		cell.setAttribute('aria-label', hasTrail
-			? `¡Huella! Sector ${index + 1}. Pulsa para atraparla.`
-			: `Sector ${index + 1}, sin huella`);
-	});
+	gameTraps.clear();
+	const trapCandidates = gameCells
+		.map((_, index) => index)
+		.filter((index) => index !== gameTarget);
+	while (gameTraps.size < Math.min(gameTrapCount, trapCandidates.length)) {
+		const randomIndex = Math.floor(Math.random() * trapCandidates.length);
+		gameTraps.add(trapCandidates.splice(randomIndex, 1)[0]);
+	}
+	updateGameCells();
 	gameTrailTimeout = window.setTimeout(() => {
-		if (!gameActive) return;
+		if (!gameActive || gameTarget === -1) return;
 		gameMisses += 1;
 		gameMissesDisplay.textContent = String(gameMisses).padStart(2, '0');
 		gameStatus.textContent = `La huella se escapó. ${gameScore} de ${gameGoal} encontradas; busca la siguiente.`;
@@ -255,23 +282,25 @@ function finishFieldGame(won) {
 	window.clearInterval(gameClock);
 	window.clearTimeout(gameTrailTimeout);
 	gameStart.disabled = false;
+	gameTimeTrack.classList.remove('is-urgent');
 	gameTarget = -1;
+	gameTraps.clear();
 	gameCells.forEach((cell, index) => {
 		cell.disabled = true;
-		cell.classList.remove('has-trail');
+		cell.classList.remove('has-trail', 'has-trap', 'is-miss', 'is-trap-hit');
 		cell.setAttribute('aria-label', `Sector ${index + 1}, sin huella`);
 	});
-	gameStart.innerHTML = 'Jugar otra vez <span aria-hidden="true">↻</span>';
+	gameStart.innerHTML = 'Practicar otra vez <span aria-hidden="true">↻</span>';
 	gameBoard.hidden = true;
 	gameHint.hidden = true;
 	gameResult.hidden = false;
 	gameResult.classList.toggle('is-win', won);
 	gameResult.classList.toggle('is-loss', !won);
-	gameResultLabel.textContent = won ? 'MISIÓN COMPLETADA' : 'TIEMPO AGOTADO';
+	gameResultLabel.textContent = won ? 'RASTREO COMPLETADO' : 'TIEMPO AGOTADO';
 	gameResultTitle.textContent = won ? '¡Ganaste!' : 'Esta vez no llegaste.';
 	gameResultMessage.textContent = won
-		? 'Rastreo completado: encontraste todas las huellas.'
-		: `Encontraste ${gameScore} de ${gameGoal} huellas. ¡Puedes intentarlo otra vez!`;
+		? 'Práctica completada: encontraste todas las huellas.'
+		: `Encontraste ${gameScore} de ${gameGoal} huellas. Puedes volver a intentarlo.`;
 	const accuracy = gameScore + gameMisses === 0
 		? 0
 		: Math.round(gameScore / (gameScore + gameMisses) * 100);
@@ -282,8 +311,8 @@ function finishFieldGame(won) {
 	gameResultTime.textContent = `${gameTime} s`;
 	gameResultBest.textContent = `${gameBestScore} / ${gameGoal}`;
 	gameStatus.textContent = won
-		? `¡Ganaste! ${gameScore} huellas en ${gameDuration - gameTime} segundos.`
-		: `Perdiste por tiempo: ${gameScore} de ${gameGoal} huellas encontradas.`;
+		? `¡Bien observado! ${gameScore} huellas en ${gameDuration - gameTime} segundos.`
+		: `Se acabó el tiempo: encontraste ${gameScore} de ${gameGoal} huellas.`;
 	gameResultTitle.focus();
 }
 
@@ -296,13 +325,11 @@ function startFieldGame() {
 	gameActive = true;
 	gameScoreDisplay.textContent = '00';
 	gameMissesDisplay.textContent = '00';
-	gameTimeTrack.classList.remove('is-urgent');
-	gameTimeDisplay.textContent = String(gameTime);
-	gameTimeTrack.setAttribute('aria-valuenow', String(gameTime));
-	gameTimeFill.style.width = '100%';
+	gameCells.forEach((cell) => cell.classList.remove('is-miss', 'is-trap-hit'));
+	updateGameTime();
 	gameStart.innerHTML = 'Rastreando… <span aria-hidden="true">↻</span>';
 	gameStart.disabled = true;
-	gameStatus.textContent = '¡A buscar! Toca la huella antes de que escape.';
+	gameStatus.textContent = 'Observa con atención y marca cada huella.';
 	gameResult.hidden = true;
 	gameResult.classList.remove('is-win', 'is-loss');
 	gameBoard.hidden = false;
@@ -311,24 +338,42 @@ function startFieldGame() {
 	moveGameTrail();
 	gameClock = window.setInterval(() => {
 		gameTime = Math.max(0, gameTime - 1);
-		gameTimeDisplay.textContent = String(gameTime);
-		gameTimeTrack.setAttribute('aria-valuenow', String(gameTime));
-		gameTimeFill.style.width = `${gameTime / gameDuration * 100}%`;
+		updateGameTime();
 		if (gameTime === 0) {
 			finishFieldGame(false);
-			return;
 		}
-		if (gameTime <= 10) gameTimeTrack.classList.add('is-urgent');
 	}, 1000);
 }
 
 gameCells.forEach((cell, index) => {
 	cell.addEventListener('click', () => {
 		if (!gameActive) return;
+		if (gameTraps.has(index)) {
+			gameTraps.delete(index);
+			gameMisses += 1;
+			gameMissesDisplay.textContent = String(gameMisses).padStart(2, '0');
+			gameTime = Math.max(0, gameTime - gameTrapPenalty);
+			updateGameTime();
+			cell.classList.add('is-trap-hit');
+			window.setTimeout(() => cell.classList.remove('is-trap-hit'), 350);
+			if (gameTime === 0) {
+				finishFieldGame(false);
+				return;
+			}
+			const safeCells = gameCells
+				.map((_, cellIndex) => cellIndex)
+				.filter((cellIndex) => cellIndex !== index && cellIndex !== gameTarget && !gameTraps.has(cellIndex));
+			if (safeCells.length) {
+				gameTraps.add(safeCells[Math.floor(Math.random() * safeCells.length)]);
+			}
+			updateGameCells();
+			gameStatus.textContent = `¡Cuidado con las espinas! Pierdes ${gameTrapPenalty} segundos.`;
+			return;
+		}
 		if (index !== gameTarget) {
 			gameMisses += 1;
 			gameMissesDisplay.textContent = String(gameMisses).padStart(2, '0');
-			gameStatus.textContent = `Ese sector estaba vacío. ${gameMisses} error${gameMisses === 1 ? '' : 'es'}; sigue la huella.`;
+			gameStatus.textContent = `Ese lugar estaba vacío. ${gameMisses} error${gameMisses === 1 ? '' : 'es'}; sigue observando.`;
 			cell.classList.add('is-miss');
 			window.setTimeout(() => cell.classList.remove('is-miss'), 300);
 			return;
@@ -340,7 +385,7 @@ gameCells.forEach((cell, index) => {
 			finishFieldGame(true);
 			return;
 		}
-		gameStatus.textContent = `¡Bien visto! ${gameScore} de ${gameGoal}. La siguiente huella ya apareció.`;
+		gameStatus.textContent = `¡Bien visto! ${gameScore} de ${gameGoal}. Busca la siguiente huella.`;
 		moveGameTrail();
 	});
 });
@@ -384,6 +429,7 @@ window.addEventListener('scroll', () => {
 siteHeader.classList.toggle('is-scrolled', window.scrollY > 24);
 
 const missionInputs = [...document.querySelectorAll('[data-mission]')];
+const missionSection = document.querySelector('#misiones');
 const missionCount = document.querySelector('#mission-count');
 const missionFill = document.querySelector('#mission-fill');
 const missionStatus = document.querySelector('#mission-status');
@@ -414,11 +460,12 @@ function updateMissionProgress() {
 	missionPercent.textContent = `${percent}% COMPLETADO`;
 	missionTrack.setAttribute('aria-valuenow', String(completed));
 	missionReset.disabled = completed === 0;
+	missionSection.classList.toggle('is-complete', completed === missionInputs.length);
 	missionStatus.textContent = nextMission === -1
-		? 'Recorrido completado. Ya desbloqueaste la historia.'
+		? 'Cuaderno completo. Ya puedes volver sobre tus notas.'
 		: completed === 0
-			? 'Empieza por leer las coordenadas.'
-			: `${completed} misión${completed === 1 ? '' : 'es'} completada${completed === 1 ? '' : 's'}. Siguiente: ${missionRows[nextMission].querySelector('.mission-text b').textContent}.`;
+			? 'Empieza por leer la portada.'
+			: `${completed} apunte${completed === 1 ? '' : 's'} completado${completed === 1 ? '' : 's'}. Siguiente: ${missionRows[nextMission].querySelector('.mission-text b').textContent}.`;
 
 	missionRows.forEach((row, index) => {
 		const isComplete = missionInputs[index].checked;
@@ -438,7 +485,7 @@ function updateMissionProgress() {
 			.map((input) => Number(input.dataset.mission));
 		localStorage.setItem(missionStorageKey, JSON.stringify(checkedMissions));
 	} catch {
-		missionStatus.textContent = `${completed} / ${missionInputs.length} señales marcadas en esta sesión.`;
+		missionStatus.textContent = `${completed} / ${missionInputs.length} apuntes marcados en esta sesión.`;
 	}
 }
 
