@@ -162,16 +162,17 @@
             <div class="field-game-inner section-wrap">
                 <div class="game-copy">
                     <div class="entry-label"><span class="section-number">05</span><span class="eyebrow">PAUSA DE EXPLORACIÓN</span></div>
-                    <p class="eyebrow game-kicker">JUEGO RÁPIDO · 30 SEGUNDOS</p>
+                    <p class="eyebrow game-kicker">RETO DE REFLEJOS · 30 SEGUNDOS</p>
                     <h2 id="game-title">Sigue la <em>pista.</em></h2>
-                    <p>Las huellas aparecen y cambian de lugar. Encuentra 10 antes de que se acabe el tiempo.</p>
+                    <p>Encuentra 10 huellas antes de que se acabe el tiempo. Cada pista dura unos segundos: si no la alcanzas, se escapa. Los toques fallidos cuentan como errores.</p>
                     <button class="button game-start" id="game-start" type="button">Iniciar juego <span aria-hidden="true">→</span></button>
-                    <p class="game-status" id="game-status" aria-live="polite">El claro está tranquilo. ¿Listo para rastrear?</p>
+                    <p class="game-status" id="game-status" aria-live="polite">Pulsa «Iniciar juego» cuando estés listo.</p>
                 </div>
                 <div class="game-console">
-                    <div class="game-stats mono" aria-label="Marcador del juego">
+                    <div class="game-stats mono" aria-label="Marcador de la partida">
                         <span>HUELLAS <b id="game-score">00</b> / 10</span>
                         <span>TIEMPO <b id="game-time">30</b>s</span>
+                        <span>ERRORES <b id="game-misses">00</b></span>
                     </div>
                     <div class="game-time-track" id="game-time-track" role="progressbar" aria-label="Tiempo restante" aria-valuemin="0" aria-valuemax="30" aria-valuenow="30">
                         <span id="game-time-fill"></span>
@@ -194,7 +195,19 @@
                         <button class="game-cell" type="button" data-cell-index="14" aria-label="Sector 15, sin huella" disabled></button>
                         <button class="game-cell" type="button" data-cell-index="15" aria-label="Sector 16, sin huella" disabled></button>
                     </div>
-                    <p class="game-hint mono">TOCA O USA TAB + ENTER PARA SEGUIR EL RASTRO</p>
+                    <div class="game-result" id="game-result" aria-live="polite" hidden>
+                        <p class="eyebrow game-result-label" id="game-result-label"></p>
+                        <h3 id="game-result-title" tabindex="-1"></h3>
+                        <p class="game-result-message" id="game-result-message"></p>
+                        <dl class="game-result-stats">
+                            <div><dt>Huellas</dt><dd id="game-result-score">0 / 10</dd></div>
+                            <div><dt>Errores</dt><dd id="game-result-misses">0</dd></div>
+                            <div><dt>Precisión</dt><dd id="game-result-accuracy">0%</dd></div>
+                            <div><dt>Tiempo restante</dt><dd id="game-result-time">0 s</dd></div>
+                            <div><dt>Mejor rastreo</dt><dd id="game-result-best">0 / 10</dd></div>
+                        </dl>
+                    </div>
+                    <p class="game-hint mono" id="game-hint">TOCA LA HUELLA ANTES DE QUE CAMBIE DE SECTOR</p>
                 </div>
             </div>
         </section>

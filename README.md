@@ -10,7 +10,7 @@ Una bitácora de lectura interactiva para explorar *Yaguaretania*, de Andrea Fer
 
 ## Minijuego
 
-En el apartado **Juego**, encuentra las huellas que van apareciendo en el claro antes de que termine el contador de 30 segundos. Reúne 10 para completar el rastreo. Se puede jugar tocando las casillas o con teclado.
+En el apartado **Juego**, encuentra 10 huellas en 30 segundos. Cada pista dura unos segundos y los toques fallidos cuentan como errores. Al terminar, el resultado muestra si ganaste o perdiste, las huellas encontradas, los errores, la precisión, el tiempo restante y tu mejor rastreo de la sesión. Se puede jugar tocando las casillas o con teclado.
 
 ## Cómo abrir la página
 

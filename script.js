@@ -201,18 +201,33 @@ renderQuizQuestion();
 const gameCells = [...document.querySelectorAll('.game-cell')];
 const gameScoreDisplay = document.querySelector('#game-score');
 const gameTimeDisplay = document.querySelector('#game-time');
+const gameMissesDisplay = document.querySelector('#game-misses');
 const gameTimeTrack = document.querySelector('#game-time-track');
 const gameTimeFill = document.querySelector('#game-time-fill');
 const gameStatus = document.querySelector('#game-status');
 const gameStart = document.querySelector('#game-start');
+const gameBoard = document.querySelector('#game-board');
+const gameHint = document.querySelector('#game-hint');
+const gameResult = document.querySelector('#game-result');
+const gameResultLabel = document.querySelector('#game-result-label');
+const gameResultTitle = document.querySelector('#game-result-title');
+const gameResultMessage = document.querySelector('#game-result-message');
+const gameResultScore = document.querySelector('#game-result-score');
+const gameResultMisses = document.querySelector('#game-result-misses');
+const gameResultAccuracy = document.querySelector('#game-result-accuracy');
+const gameResultTime = document.querySelector('#game-result-time');
+const gameResultBest = document.querySelector('#game-result-best');
 const gameDuration = 30;
 const gameGoal = 10;
+const gameTrailDuration = 2400;
 let gameScore = 0;
+let gameMisses = 0;
+let gameBestScore = 0;
 let gameTime = gameDuration;
 let gameTarget = -1;
 let gameActive = false;
 let gameClock;
-let gameTrailClock;
+let gameTrailTimeout;
 
 function moveGameTrail() {
 	const availableCells = gameCells
@@ -223,15 +238,22 @@ function moveGameTrail() {
 		const hasTrail = index === gameTarget;
 		cell.classList.toggle('has-trail', hasTrail);
 		cell.setAttribute('aria-label', hasTrail
-			? `¡Huella! Sector ${index + 1}`
+			? `¡Huella! Sector ${index + 1}. Pulsa para atraparla.`
 			: `Sector ${index + 1}, sin huella`);
 	});
+	gameTrailTimeout = window.setTimeout(() => {
+		if (!gameActive) return;
+		gameMisses += 1;
+		gameMissesDisplay.textContent = String(gameMisses).padStart(2, '0');
+		gameStatus.textContent = `La huella se escapó. ${gameScore} de ${gameGoal} encontradas; busca la siguiente.`;
+		moveGameTrail();
+	}, gameTrailDuration);
 }
 
 function finishFieldGame(won) {
 	gameActive = false;
 	window.clearInterval(gameClock);
-	window.clearInterval(gameTrailClock);
+	window.clearTimeout(gameTrailTimeout);
 	gameStart.disabled = false;
 	gameTarget = -1;
 	gameCells.forEach((cell, index) => {
@@ -240,46 +262,85 @@ function finishFieldGame(won) {
 		cell.setAttribute('aria-label', `Sector ${index + 1}, sin huella`);
 	});
 	gameStart.innerHTML = 'Jugar otra vez <span aria-hidden="true">↻</span>';
+	gameBoard.hidden = true;
+	gameHint.hidden = true;
+	gameResult.hidden = false;
+	gameResult.classList.toggle('is-win', won);
+	gameResult.classList.toggle('is-loss', !won);
+	gameResultLabel.textContent = won ? 'MISIÓN COMPLETADA' : 'TIEMPO AGOTADO';
+	gameResultTitle.textContent = won ? '¡Ganaste!' : 'Esta vez no llegaste.';
+	gameResultMessage.textContent = won
+		? 'Rastreo completado: encontraste todas las huellas.'
+		: `Encontraste ${gameScore} de ${gameGoal} huellas. ¡Puedes intentarlo otra vez!`;
+	const accuracy = gameScore + gameMisses === 0
+		? 0
+		: Math.round(gameScore / (gameScore + gameMisses) * 100);
+	gameBestScore = Math.max(gameBestScore, gameScore);
+	gameResultScore.textContent = `${gameScore} / ${gameGoal}`;
+	gameResultMisses.textContent = String(gameMisses);
+	gameResultAccuracy.textContent = `${accuracy}%`;
+	gameResultTime.textContent = `${gameTime} s`;
+	gameResultBest.textContent = `${gameBestScore} / ${gameGoal}`;
 	gameStatus.textContent = won
-		? `¡Rastreo completado! Encontraste las ${gameGoal} huellas.`
-		: `Se acabó el tiempo. Encontraste ${gameScore} de ${gameGoal} huellas.`;
+		? `¡Ganaste! ${gameScore} huellas en ${gameDuration - gameTime} segundos.`
+		: `Perdiste por tiempo: ${gameScore} de ${gameGoal} huellas encontradas.`;
+	gameResultTitle.focus();
 }
 
 function startFieldGame() {
 	window.clearInterval(gameClock);
-	window.clearInterval(gameTrailClock);
+	window.clearTimeout(gameTrailTimeout);
 	gameScore = 0;
+	gameMisses = 0;
 	gameTime = gameDuration;
 	gameActive = true;
 	gameScoreDisplay.textContent = '00';
+	gameMissesDisplay.textContent = '00';
+	gameTimeTrack.classList.remove('is-urgent');
 	gameTimeDisplay.textContent = String(gameTime);
 	gameTimeTrack.setAttribute('aria-valuenow', String(gameTime));
 	gameTimeFill.style.width = '100%';
 	gameStart.innerHTML = 'Rastreando… <span aria-hidden="true">↻</span>';
 	gameStart.disabled = true;
-	gameStatus.textContent = '¡A buscar! Toca la casilla que tenga la huella.';
+	gameStatus.textContent = '¡A buscar! Toca la huella antes de que escape.';
+	gameResult.hidden = true;
+	gameResult.classList.remove('is-win', 'is-loss');
+	gameBoard.hidden = false;
+	gameHint.hidden = false;
 	gameCells.forEach((cell) => { cell.disabled = false; });
 	moveGameTrail();
-	gameTrailClock = window.setInterval(moveGameTrail, 1250);
 	gameClock = window.setInterval(() => {
-		gameTime -= 1;
+		gameTime = Math.max(0, gameTime - 1);
 		gameTimeDisplay.textContent = String(gameTime);
 		gameTimeTrack.setAttribute('aria-valuenow', String(gameTime));
 		gameTimeFill.style.width = `${gameTime / gameDuration * 100}%`;
-		if (gameTime === 0) finishFieldGame(false);
+		if (gameTime === 0) {
+			finishFieldGame(false);
+			return;
+		}
+		if (gameTime <= 10) gameTimeTrack.classList.add('is-urgent');
 	}, 1000);
 }
 
 gameCells.forEach((cell, index) => {
 	cell.addEventListener('click', () => {
-		if (!gameActive || index !== gameTarget) return;
+		if (!gameActive) return;
+		if (index !== gameTarget) {
+			gameMisses += 1;
+			gameMissesDisplay.textContent = String(gameMisses).padStart(2, '0');
+			gameStatus.textContent = `Ese sector estaba vacío. ${gameMisses} error${gameMisses === 1 ? '' : 'es'}; sigue la huella.`;
+			cell.classList.add('is-miss');
+			window.setTimeout(() => cell.classList.remove('is-miss'), 300);
+			return;
+		}
+		window.clearTimeout(gameTrailTimeout);
 		gameScore += 1;
 		gameScoreDisplay.textContent = String(gameScore).padStart(2, '0');
-		if (gameScore === gameGoal) {
+		if (gameScore >= gameGoal) {
 			finishFieldGame(true);
 			return;
 		}
-		gameStatus.textContent = `¡Bien visto! ${gameScore} de ${gameGoal} huellas encontradas.`;
+		gameStatus.textContent = `¡Bien visto! ${gameScore} de ${gameGoal}. La siguiente huella ya apareció.`;
 		moveGameTrail();
 	});
 });
