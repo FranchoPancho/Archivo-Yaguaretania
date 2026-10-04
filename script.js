@@ -1,0 +1,299 @@
+const signals = {
+	territorio: {
+		code: 'COORDENADA 01',
+		kicker: 'EL LUGAR TAMBIÉN NARRA',
+		title: '¿Quién decide<br>qué es un hogar?',
+		description: 'En una historia de futuro, el territorio nunca es solo el fondo. Sigue las marcas del entorno y pregúntate quién puede habitarlo, transformarlo o llamarlo suyo.'
+	},
+	frontera: {
+		code: 'COORDENADA 02',
+		kicker: 'LÍMITES EN MOVIMIENTO',
+		title: '¿Qué hay al otro<br>lado de la frontera?',
+		description: 'Observa cómo se dibujan los límites y quién tiene permiso para cruzarlos. Cada frontera cuenta algo sobre las reglas de ese mundo.'
+	},
+	futuro: {
+		code: 'COORDENADA 03',
+		kicker: 'EL MAÑANA SE CONSTRUYE',
+		title: '¿El futuro de quién?',
+		description: 'Piensa qué decisiones del presente parecen haber dado forma a ese mañana. ¿Quién gana con ese orden? ¿Quién queda fuera de la imagen?' 
+	},
+	jaguar: {
+		code: 'COORDENADA 04',
+		kicker: 'UNA PRESENCIA QUE DEJA HUELLA',
+		title: '¿Qué significa<br>el yaguareté?',
+		description: 'Sigue la presencia del animal en el título y en tu lectura. Pregúntate qué asociaciones despierta y cómo transforma tu manera de imaginar el territorio.'
+	}
+};
+
+const signalTabs = [...document.querySelectorAll('.signal-tab')];
+const signalPanel = document.querySelector('#signal-panel');
+
+signalTabs.forEach((tab, index) => {
+	tab.addEventListener('click', () => {
+		const signal = signals[tab.dataset.signal];
+		signalTabs.forEach((item) => {
+			const selected = item === tab;
+			item.classList.toggle('active', selected);
+			item.setAttribute('aria-selected', String(selected));
+			item.tabIndex = selected ? 0 : -1;
+		});
+		signalPanel.setAttribute('aria-labelledby', tab.id);
+		document.querySelector('#signal-code').textContent = signal.code;
+		document.querySelector('#signal-kicker').textContent = signal.kicker;
+		document.querySelector('#signal-title').innerHTML = signal.title;
+		document.querySelector('#signal-description').textContent = signal.description;
+	});
+
+	tab.addEventListener('keydown', (event) => {
+		if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+		event.preventDefault();
+		const direction = event.key === 'ArrowRight' ? 1 : -1;
+		const nextTab = signalTabs[(index + direction + signalTabs.length) % signalTabs.length];
+		nextTab.click();
+		nextTab.focus();
+	});
+});
+
+const fieldFacts = {
+	range: {
+		code: 'BIOSEÑAL 01 / DISTRIBUCIÓN',
+		title: 'Un territorio<br>de continente.',
+		description: 'El jaguar se distribuye desde México hasta Argentina y está presente en 18 países.',
+		stat: 'MÉXICO <span>→</span> ARGENTINA'
+	},
+	movement: {
+		code: 'BIOSEÑAL 02 / MOVIMIENTO',
+		title: 'La selva no es<br>su único camino.',
+		description: 'Es un buen nadador y trepador. Necesita grandes territorios conectados y ecosistemas saludables para sobrevivir.',
+		stat: 'NADADOR <span>+</span> TREPADOR'
+	},
+	coat: {
+		code: 'BIOSEÑAL 03 / PELAJE',
+		title: 'Cada roseta<br>deja su firma.',
+		description: 'Su pelaje dorado se reconoce por rosetas oscuras. El patrón convierte a cada jaguar en una presencia inconfundible.',
+		stat: 'PATRÓN <span>·</span> ROSETAS'
+	}
+};
+
+const factTabs = [...document.querySelectorAll('.fact-tab')];
+const factPanel = document.querySelector('#fact-panel');
+
+factTabs.forEach((tab, index) => {
+	tab.addEventListener('click', () => {
+		const fact = fieldFacts[tab.dataset.fact];
+		factTabs.forEach((item) => {
+			const selected = item === tab;
+			item.classList.toggle('active', selected);
+			item.setAttribute('aria-selected', String(selected));
+			item.tabIndex = selected ? 0 : -1;
+		});
+		factPanel.setAttribute('aria-labelledby', tab.id);
+		document.querySelector('#fact-code').textContent = fact.code;
+		document.querySelector('#fact-title').innerHTML = fact.title;
+		document.querySelector('#fact-description').textContent = fact.description;
+		document.querySelector('#fact-stat').innerHTML = fact.stat;
+	});
+
+	tab.addEventListener('keydown', (event) => {
+		if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+		event.preventDefault();
+		const direction = event.key === 'ArrowRight' ? 1 : -1;
+		const nextTab = factTabs[(index + direction + factTabs.length) % factTabs.length];
+		nextTab.click();
+		nextTab.focus();
+	});
+});
+
+const quizQuestions = [
+	{
+		question: '¿Entre qué dos países se extiende el rango del jaguar?',
+		options: ['México y Argentina', 'Canadá y Chile', 'España y Portugal'],
+		answer: 0,
+		explanation: 'WWF registra su presencia desde México hasta Argentina.'
+	},
+	{
+		question: '¿Qué patrón caracteriza su pelaje?',
+		options: ['Rayas blancas', 'Rosetas oscuras', 'Un color completamente liso'],
+		answer: 1,
+		explanation: 'Las rosetas oscuras son una de sus marcas más reconocibles.'
+	},
+	{
+		question: '¿Qué habilidades destaca WWF?',
+		options: ['Nadar y trepar', 'Volar y planear', 'Vivir solo en el desierto'],
+		answer: 0,
+		explanation: 'El jaguar es un nadador fuerte y también trepa.'
+	}
+];
+
+const quizProgress = document.querySelector('#quiz-progress');
+const quizQuestion = document.querySelector('#quiz-question');
+const quizOptions = document.querySelector('#quiz-options');
+const quizFeedback = document.querySelector('#quiz-feedback');
+const quizNext = document.querySelector('#quiz-next');
+let quizIndex = 0;
+let quizScore = 0;
+let quizAnswered = false;
+
+function renderQuizQuestion() {
+	const currentQuestion = quizQuestions[quizIndex];
+	quizProgress.textContent = `PREGUNTA ${String(quizIndex + 1).padStart(2, '0')} / ${String(quizQuestions.length).padStart(2, '0')}`;
+	quizQuestion.textContent = currentQuestion.question;
+	quizOptions.replaceChildren();
+	quizFeedback.textContent = '';
+	quizNext.disabled = true;
+	quizNext.innerHTML = 'Siguiente señal <span aria-hidden="true">→</span>';
+	quizAnswered = false;
+
+	currentQuestion.options.forEach((option, optionIndex) => {
+		const button = document.createElement('button');
+		button.className = 'quiz-option';
+		button.type = 'button';
+		button.textContent = option;
+		button.addEventListener('click', () => {
+			if (quizAnswered) return;
+			quizAnswered = true;
+			const isCorrect = optionIndex === currentQuestion.answer;
+			if (isCorrect) quizScore += 1;
+			[...quizOptions.children].forEach((answerButton, answerIndex) => {
+				answerButton.disabled = true;
+				if (answerIndex === currentQuestion.answer) answerButton.classList.add('correct');
+				else if (answerIndex === optionIndex) answerButton.classList.add('incorrect');
+			});
+			quizFeedback.textContent = isCorrect
+				? `¡Correcto! ${currentQuestion.explanation}`
+				: `No exactamente. ${currentQuestion.explanation}`;
+			quizNext.disabled = false;
+			quizNext.focus();
+		});
+		quizOptions.append(button);
+	});
+}
+
+quizNext.addEventListener('click', () => {
+	if (quizIndex < quizQuestions.length - 1) {
+		quizIndex += 1;
+		renderQuizQuestion();
+		quizQuestion.focus?.();
+		return;
+	}
+
+	if (quizAnswered) {
+		quizProgress.textContent = 'TRANSMISIÓN COMPLETADA';
+		quizQuestion.textContent = `Resultado: ${quizScore} / ${quizQuestions.length}`;
+		quizOptions.replaceChildren();
+		quizFeedback.textContent = quizScore === quizQuestions.length
+			? '¡Explorador experto! Has leído todas las señales.'
+			: 'Recorrido terminado. Explora los datos y vuelve a intentarlo.';
+		quizNext.disabled = false;
+		quizNext.textContent = 'Repetir desafío';
+		quizAnswered = false;
+		quizIndex = quizQuestions.length;
+		return;
+	}
+
+	quizIndex = 0;
+	quizScore = 0;
+	renderQuizQuestion();
+});
+
+renderQuizQuestion();
+
+const menuToggle = document.querySelector('#menu-toggle');
+const mainNav = document.querySelector('#main-nav');
+
+menuToggle.addEventListener('click', () => {
+	const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+	menuToggle.setAttribute('aria-expanded', String(!isOpen));
+	menuToggle.setAttribute('aria-label', isOpen ? 'Abrir menú' : 'Cerrar menú');
+	mainNav.classList.toggle('is-open', !isOpen);
+});
+
+mainNav.querySelectorAll('a').forEach((link) => {
+	link.addEventListener('click', () => {
+		menuToggle.setAttribute('aria-expanded', 'false');
+		menuToggle.setAttribute('aria-label', 'Abrir menú');
+		mainNav.classList.remove('is-open');
+	});
+});
+
+const progressBar = document.querySelector('#progress-bar');
+let progressTicking = false;
+
+window.addEventListener('scroll', () => {
+	if (progressTicking) return;
+	progressTicking = true;
+	window.requestAnimationFrame(() => {
+		const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+		const progress = scrollableHeight > 0 ? window.scrollY / scrollableHeight * 100 : 0;
+		progressBar.style.width = `${progress}%`;
+		progressTicking = false;
+	});
+}, { passive: true });
+
+const missionInputs = [...document.querySelectorAll('[data-mission]')];
+const missionCount = document.querySelector('#mission-count');
+const missionFill = document.querySelector('#mission-fill');
+const missionStatus = document.querySelector('#mission-status');
+const missionPercent = document.querySelector('#mission-percent');
+const missionTrack = document.querySelector('.progress-track');
+const missionReset = document.querySelector('#mission-reset');
+const missionRows = [...document.querySelectorAll('[data-mission-item]')];
+const missionStations = [...document.querySelectorAll('.progress-stations i')];
+const missionStorageKey = 'yaguaretania-reading-missions';
+let savedMissions = [];
+
+try {
+	savedMissions = JSON.parse(localStorage.getItem(missionStorageKey) || '[]');
+} catch {
+	savedMissions = [];
+}
+
+missionInputs.forEach((input) => {
+	input.checked = Array.isArray(savedMissions) && savedMissions.includes(Number(input.dataset.mission));
+});
+
+function updateMissionProgress() {
+	const completed = missionInputs.filter((input) => input.checked).length;
+	const percent = Math.round(completed / missionInputs.length * 100);
+	const nextMission = missionInputs.findIndex((input) => !input.checked);
+	missionCount.textContent = `${completed} / ${missionInputs.length}`;
+	missionFill.style.width = `${percent}%`;
+	missionPercent.textContent = `${percent}% COMPLETADO`;
+	missionTrack.setAttribute('aria-valuenow', String(completed));
+	missionReset.disabled = completed === 0;
+	missionStatus.textContent = nextMission === -1
+		? 'Recorrido completado. Ya desbloqueaste la historia.'
+		: completed === 0
+			? 'Empieza por leer las coordenadas.'
+			: `${completed} misión${completed === 1 ? '' : 'es'} completada${completed === 1 ? '' : 's'}. Siguiente: ${missionRows[nextMission].querySelector('.mission-text b').textContent}.`;
+
+	missionRows.forEach((row, index) => {
+		const isComplete = missionInputs[index].checked;
+		const isNext = !isComplete && index === nextMission;
+		row.classList.toggle('is-complete', isComplete);
+		row.classList.toggle('is-next', isNext);
+		row.querySelector('.mission-state').textContent = isComplete
+			? 'COMPLETADA'
+			: isNext ? 'SIGUIENTE' : 'PENDIENTE';
+		row.querySelector('.mission-check').textContent = isComplete ? '✓' : isNext ? '↗' : '';
+		missionStations[index].classList.toggle('is-complete', isComplete);
+	});
+
+	try {
+		const checkedMissions = missionInputs
+			.filter((input) => input.checked)
+			.map((input) => Number(input.dataset.mission));
+		localStorage.setItem(missionStorageKey, JSON.stringify(checkedMissions));
+	} catch {
+		missionStatus.textContent = `${completed} / ${missionInputs.length} señales marcadas en esta sesión.`;
+	}
+}
+
+missionInputs.forEach((input) => input.addEventListener('change', updateMissionProgress));
+missionReset.addEventListener('click', () => {
+	missionInputs.forEach((input) => { input.checked = false; });
+	updateMissionProgress();
+	missionInputs[0].focus();
+});
+updateMissionProgress();
+
