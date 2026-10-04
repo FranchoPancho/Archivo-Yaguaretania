@@ -71,18 +71,19 @@ h1, h2, h3, p { margin-top: 0; }
 .hud-target::before { width: 28px; height: 1px; top: 5px; left: -9px; }
 .hud-target::after { width: 1px; height: 28px; left: 5px; top: -9px; }
 .section-wrap { width: min(1110px, 86%); margin-inline: auto; }
-.entry { min-height: 635px; display: grid; grid-template-columns: 1fr minmax(160px, 230px); gap: 10%; align-items: center; padding-block: 110px; position: relative; }
+.entry { min-height: 635px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(160px, 230px); column-gap: 10%; row-gap: 0; align-items: center; padding-block: 110px; position: relative; }
 .entry-label { display: flex; align-items: center; gap: 13px; margin-bottom: 43px; }
+.entry > .entry-label { grid-column: 1 / -1; }
 .section-number { color: var(--rust); font-size: 10px; }
 .entry-label .eyebrow { color: var(--muted); }
-.entry-copy { max-width: 610px; }
+.entry-copy { grid-column: 1; max-width: 610px; }
 .entry-copy > .eyebrow { margin-bottom: 18px; }
 h2 { font: 600 clamp(39px, 5vw, 63px)/1.08 var(--serif); letter-spacing: 0; }
 .entry h2, .atlas h2, .timeline h2, .closing h2 { margin-bottom: 24px; }
 .entry h2 em { color: var(--rust); }
 .body-large { max-width: 580px; margin-bottom: 18px; color: #4e5a54; font-size: 15px; line-height: 1.85; }
 .small-note { max-width: 570px; color: var(--muted); font-size: 11px; line-height: 1.7; }
-.book-stamp { min-height: 290px; padding: 18px; border: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; transform: rotate(2deg); background: rgba(255,254,250,.28); }
+.book-stamp { grid-column: 2; min-height: 290px; padding: 18px; border: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; transform: rotate(2deg); background: rgba(255,254,250,.28); }
 .stamp-top, .book-stamp > span:last-child { color: var(--muted); font-size: 8px; line-height: 1.7; }
 .stamp-title { position: relative; color: var(--forest); font: 800 105px/.8 var(--serif); }
 .stamp-title span { color: var(--rust); font-size: 42px; }
@@ -256,8 +257,10 @@ h2 { font: 600 clamp(39px, 5vw, 63px)/1.08 var(--serif); letter-spacing: 0; }
     .hero-caption { max-width: 60%; left: 7%; font-size: 7px; }
     .hero-index { right: 7%; }
     .section-wrap { width: 86%; }
-    .entry { min-height: 0; grid-template-columns: 1fr; gap: 38px; padding-block: 78px; }
+    .entry { min-height: 0; grid-template-columns: 1fr; row-gap: 24px; padding-block: 78px; }
+    .entry-copy, .book-stamp { grid-column: auto; }
     .entry-label { margin-bottom: 31px; }
+    .entry > .entry-label { margin-bottom: 0; }
     .book-stamp { width: 190px; min-height: 250px; justify-self: end; }
     .stamp-title { font-size: 85px; }
     .territory { padding-top: 78px; }
