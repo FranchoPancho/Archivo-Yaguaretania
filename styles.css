@@ -28,7 +28,8 @@ a:focus-visible, button:focus-visible { outline: 2px solid #f2a377; outline-offs
 .light { color: rgba(255,255,255,.78); }
 .reading-progress { position: fixed; z-index: 20; inset: 0 0 auto; height: 3px; }
 .reading-progress span { display: block; width: 0; height: 100%; background: #d76d4d; }
-.site-header { position: absolute; z-index: 10; inset: 3px 0 auto; height: 78px; padding: 0 6.1%; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: white; border-bottom: 1px solid rgba(255,255,255,.2); }
+.site-header { position: fixed; z-index: 10; inset: 3px 0 auto; height: 78px; padding: 0 6.1%; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: white; border-bottom: 1px solid rgba(255,255,255,.2); transition: background .25s, box-shadow .25s, border-color .25s; }
+.site-header.is-scrolled { border-color: rgba(255,255,255,.1); background: rgba(7,23,21,.96); box-shadow: 0 8px 24px rgba(0,0,0,.18); backdrop-filter: blur(14px); }
 .wordmark { display: inline-flex; align-items: center; gap: 10px; font: 9px/1.25 var(--mono); letter-spacing: 0; }
 .wordmark { flex: none; }
 .wordmark b { font-weight: 500; }

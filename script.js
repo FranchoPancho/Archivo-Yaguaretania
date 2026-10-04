@@ -366,18 +366,22 @@ mainNav.querySelectorAll('a').forEach((link) => {
 });
 
 const progressBar = document.querySelector('#progress-bar');
+const siteHeader = document.querySelector('.site-header');
 let progressTicking = false;
 
 window.addEventListener('scroll', () => {
 	if (progressTicking) return;
 	progressTicking = true;
 	window.requestAnimationFrame(() => {
+		siteHeader.classList.toggle('is-scrolled', window.scrollY > 24);
 		const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
 		const progress = scrollableHeight > 0 ? window.scrollY / scrollableHeight * 100 : 0;
 		progressBar.style.width = `${progress}%`;
 		progressTicking = false;
 	});
 }, { passive: true });
+
+siteHeader.classList.toggle('is-scrolled', window.scrollY > 24);
 
 const missionInputs = [...document.querySelectorAll('[data-mission]')];
 const missionCount = document.querySelector('#mission-count');
